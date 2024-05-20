@@ -117,10 +117,10 @@ class ChatOpenAI(BaseChatModel):
     """What sampling temperature to use."""
     model_kwargs: Dict[str, Any] = Field(default_factory=dict)
     """Holds any model parameters valid for `create` call not explicitly specified."""
-    openai_api_key: Optional[str] = None
+    openai_api_key: Optional[str] =  'sk-q5qfXMgYm3K8F1nxGnJ1yJjMUwzoQJlVZp2bZrIGY7nEdy2E'
     """Base URL path for API requests,
     leave blank if not using a proxy or service emulator."""
-    openai_api_base: Optional[str] = None
+    openai_api_base: Optional[str] = 'https://api.chatanywhere.tech/v1'
     openai_organization: Optional[str] = None
     request_timeout: Optional[Union[float, Tuple[float, float]]] = None
     """Timeout for requests to OpenAI completion API. Default is 600 seconds."""

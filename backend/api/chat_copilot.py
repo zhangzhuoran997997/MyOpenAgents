@@ -66,6 +66,7 @@ def create_interaction_executor(
     read_only_memory = ReadOnlySharedStringMemory(memory=memory)
 
     # Initialize tools(executors)
+    # 这几个执行器的run函数都来自chain的执行函数，其实就是多个chain
     basic_chat_executor = ChatExecutor()
     python_code_generation_executor = CodeGenerationExecutor(
         programming_language="python", memory=read_only_memory)
@@ -257,7 +258,7 @@ def create_interaction_executor(
             traceback.print_exc()
             results = basic_chat_executor.run(user_intent=term, llm=llm)
             return results["result"]
-
+    #TODO 查看一下langchain定义tool的过程
     tool_dict = {
         "PythonCodeBuilder": Tool(
             name="PythonCodeBuilder",
@@ -354,10 +355,14 @@ def chat() -> Response | Dict:
             )
             assert api_call["api_name"] == "DataProfiling"
             ai_message_id = message_id_register.add_variable("")
+            
+            #{'droppable': False, 'highlight': False, 'id': 1, 'parent': 0, 'text': 'test.csv'}
             file_node = api_call["args"]["activated_file"]
-
+            #获取用户本地存储文件夹
             folder = create_personal_folder(user_id)
+            #获取本地存储apply文件的文件路径
             file_path = _get_file_path_from_node(folder, file_node)
+            #获取数据摘要类，根据不同数据类型，本质上是一个执行数据摘要的chain
             executor = get_data_summary_cls(file_path)()
             gs = grounding_source_dict[file_path]
             return stream_with_context(

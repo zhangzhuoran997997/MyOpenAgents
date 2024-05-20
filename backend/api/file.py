@@ -448,6 +448,7 @@ def get_path_tree() -> Response:
         else:
             return Response(response=None, status=f"{UNFOUND} Directory not found")
     except Exception as e:
+        print(e)
         return Response(response=None, status=f"{INTERNAL} Directory not found")
 
 
