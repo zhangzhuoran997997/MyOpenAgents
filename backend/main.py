@@ -44,4 +44,4 @@ if __name__ == "__main__":
     import multiprocess
 
     multiprocess.set_start_method("spawn", True)
-    app.run(debug=True)
+    app.run()

@@ -28,6 +28,9 @@ def get_llm(llm_name: str, **kwargs) -> BaseLanguageModel:
         openai_api_type = os.getenv("OPENAI_API_TYPE", "open_ai")
         if openai_api_type == "open_ai":
             chat_openai = ChatOpenAI
+            # kwargs.update({"model_name": "chatglm3-32k"})
+            # kwargs.update({"openai_api_base": "http://162.105.146.106:9997/v1"})
+            # kwargs.update({"openai_api_key": " "})
             kwargs.update({"model_name": llm_name})
         elif openai_api_type == "azure":
             chat_openai = AzureChatOpenAI

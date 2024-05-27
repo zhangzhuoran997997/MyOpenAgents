@@ -7,7 +7,7 @@ from real_agents.adapters.memory import ReadOnlySharedStringMemory
 from real_agents.adapters.schema import SQLDatabase
 from real_agents.data_agent.python.base import PythonChain
 from real_agents.data_agent.sql.base import SQLDatabaseChain
-
+from real_agents.adapters.models import ChatOpenAI, ChatAnthropic, AzureChatOpenAI
 
 class CodeGenerationExecutor:
     """Code Generation Executor.
@@ -97,9 +97,17 @@ class CodeGenerationExecutor:
             result = method(_input)
         elif self._programming_language == "python":
             if self._usage is None:
+                new_llm = ChatOpenAI(
+                    model_name="chatglm3-32k",
+                streaming=True,
+                openai_api_base="http://162.105.146.106:9997/v1",
+                verbose=True,
+                max_tokens=2048
+                )
+                new_llm_name = "chatglm3-32k"
                 # General python code generation for data analysis
                 method = PythonChain.from_python_prompt(
-                    llm,
+                    new_llm,
                     return_intermediate_steps=return_intermediate_steps,
                     verbose=True,
                     memory=self._memory,
